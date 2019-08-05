@@ -64,6 +64,14 @@ insertBlankLine = (targetObject, linesToBeInserted) =>{
 
 displayCart = () =>{
 
+
+     // Remove add Product cart and again display the anchor to add product
+     let myNode = document.getElementById("divCartItems");
+     while (myNode.firstChild) {
+        myNode.removeChild(myNode.firstChild);
+      }
+
+
     for (let i=0; i<cartArray.length; i++)
     {
 
@@ -97,7 +105,34 @@ displayCart = () =>{
         deleteBtn = document.createElement('input');
         deleteBtn.setAttribute('type', 'button');
         deleteBtn.setAttribute('Value', 'Delete');
+        productDiv.appendChild(deleteBtn);
+
+        deleteBtn.addEventListener('click',()=>{
+            console.log(product);
+            deleteProduct(product);       
+        })
     }  
+}
+
+deleteProduct = (productToDelete) =>{
+
+        // console.log(cartArray);  
+        // console.log(productToDelete);        
+    //     cartArray = cartArray.filter((product)=>{
+    //     product.productId==productToDelete.productId;
+    for (let i=0; i<cartArray.length; i++)
+    {
+        if(cartArray[i].productId==productToDelete.productId)
+        {
+            console.log(cartArray[i].productId+" "+productToDelete.productId);
+            cartArray.splice(i, 1);
+            break;
+        }
+    }
+      // TODO: nothing being left in the array
+    //   console.log(cartArray.length);          
+      displayCart();
+      localStorage.setItem('cartArray', JSON.stringify(cartArray));
 }
 
 

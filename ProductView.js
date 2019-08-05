@@ -1,6 +1,8 @@
 const productPanel =  document.getElementById('productsPanel');
+const divLoginLogout =  document.getElementById('divLoginLogout');
 let productsArray=[];
 let cartArray=[];
+let users=[];
 
 
 //TODO: insert blank line
@@ -14,11 +16,69 @@ insertBlankLine = (targetObject, linesToBeInserted) =>{
     }   
 }
 
+// TODO: display user login/logout
+
+displayLoginLogout = () =>{
+    
+  let userId = fetchLoggedInUser();
+  getUsers();
+  let userName;
+  if(userId==null)
+  {
+      let login = document.createElement('a');
+      login.href = "./Login.html";
+      login.innerHTML="Login";
+      divLoginLogout.appendChild(login);
+      
+      let register = document.createElement('a');
+      register.href = "./Register.html";
+      register.innerHTML="Register";
+      divLoginLogout.appendChild(register);
+
+  }else{
+      console.log(users.length);
+      for (let i=0; i<users.length; i++)
+      {
+        // console.log(users[i].name);
+        console.log(users[i].uid+" "+userId);
+           if(users[i].uid==userId)
+           {
+               userName = users[i].name;
+               console.log(users[i].name);
+               break;              
+           }
+      }
+      let label = document.createElement('label');
+      let textNode = document.createTextNode("Welcome "+userName);
+      label.appendChild(textNode);
+      divLoginLogout.appendChild(label);
+
+      let logout = document.createElement('a');
+      logout.href = "./Login.html";
+      logout.innerHTML="Logout";
+      divLoginLogout.appendChild(logout); 
+
+      logout.addEventListener('click', ()=>{
+          logoutUser();
+      })
+  }
+}
+ 
+
+//TODO: Method to log user out  (remove the userId from the local storage)
+logoutUser =() =>{
+
+    sessionStorage.removeItem('userId');
+}
+
+
 
 
 // TODO: A method to display all products
 
 displayProducts = () =>{
+
+    displayLoginLogout(); 
 
    for (let i=0; i<productsArray.length; i++)
    {
@@ -129,7 +189,21 @@ function fetchData(){
     console.log(productsArray); 
     cartArray = JSON.parse(localStorage.getItem('cartArray'));
     cartArray=cartArray==null?[]:cartArray;
-
     // console.log(productsArray);
     displayProducts();
- }
+}
+
+
+
+fetchLoggedInUser = () =>{    
+    userId=sessionStorage.getItem('userId');
+    userId=userId==null?null:userId;
+    return userId;
+}
+
+getUsers = () =>{
+    users = JSON.parse(localStorage.getItem("users"));
+    users = users == null ? [] : users;
+    // console.length(users.length);
+}
+
