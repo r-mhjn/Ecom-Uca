@@ -9,6 +9,7 @@ checkOutBtn.addEventListener('click',()=>{
     this.checkOut();
 });
 
+//TODO: cart mai user id add karo
 
 continueBtn.addEventListener('click',()=>{
     // alert("continue");
@@ -149,3 +150,10 @@ function fetchData(){
     console.log(cartArray);
     displayCart();
  }
+
+
+ fetchLoggedInUser = () =>{    
+    userId=sessionStorage.getItem('userId');
+    userId=userId==null?null:userId;
+    return userId;
+}
